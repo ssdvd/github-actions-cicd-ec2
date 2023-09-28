@@ -1,0 +1,52 @@
+Maquina virtual:
+
+basicamente explicando o que se trata a ec2, enfatizando o uso das instancia como
+maquina virtual, para ser usado para o nosso app. Mostrando em como podemos provisionar
+o mesmo tipo de infra em outra regiao, assim criando uma instancia com o procedimento
+padrao, sem nenhuma novidade. Tendo um adendo de apenas uma par de chaves, para termos
+acesso a instancia por ssh e autenticando com essa chave.
+
+o passos seguido foram:
+
+1. dar o nome a instancia
+2. tipo da instancia: t2.micro free tier
+3. selecionar o tipo de imagem(so) ubuntu
+4. selecionar vpc
+5. criar um grupo de seguranca 
+6. criar par de chaves
+
+como eu ja fiz um curso de como utilizar esse servico, nao ha novidade par ser destacada
+nessa anotacao.
+
+Banco de dados:
+
+e por motivos obvios, iremos utilizar o servico RDS, para o banco de dados do nosso
+app, por contas das vantagens que sao:
+
+1. Configuracao da maquina por parte da aws
+2. atualizacoes e seguranca por parte da aws
+3. o banco e independente da maquina(mesmo se a maquina for apagada o banco prevalece)
+4. backup automatico
+5. free tier(sem custo) nesse caso nos primeiros 12 meses de uso da conta na aws
+
+e para criar o nosso banco de dados, devemos:
+
+1. Acessar o servico RDS no painel da aws
+2. selecionar a opcao de banco de dados
+3. clicar em criar banco
+4. selecionar o metodo de criacao, no caso iremos de criacao padrao mesmo
+5. selecionar o mecanismo, no caso sera utilizado o postgresql 13.7-R1
+6. selecionar modelo, iremos utilizar o nivel gratuito
+7. Damos um nome ao nosso banco de dados, o utilizado foi api-go-dev
+8. configurar credencial, usuario postgres e senha padrao
+9. configurar instancia, como selecionar o nivel gratuito, ja vem ticado com a opcao
+db.t3.micro, uma instancia especifica para banco de dados e gratuita por 12 meses 
+no free tier.
+10. na configuracao adicional, devemos criar o nosso banco do app, e o nome que utilizamos
+foi o root.
+11. e clicar em criar banco de dados 
+
+toda as outras configuracoes que na foram citadas, e porque mantivemos as opcoes padroes
+que ja vem ao clicarmos em criar. Detalher em ao selecionar a vpc, a mesma tem que estar
+utilizando a que utilizamos ao criar a instancia no ec2. 
+

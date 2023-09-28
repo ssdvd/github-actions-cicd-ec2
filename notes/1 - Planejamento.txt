@@ -1,0 +1,32 @@
+Apresentacao:
+
+Nesse curso, iremos criar uma pipeline de integracao e entrega, utilizando o github
+actions e a aws, utilizando um app base que sera utilizado para a criacao.
+
+iremos ver sobre permissoes no linux, infra em cloud ec2 e secrets no github actions.
+
+Plano de execucao:
+
+e para esse plano, iremos utilizar alguns recursos da aws, como uma instancia e um 
+banco de dados, ambos serao criados no modelo de free tier para nao acarretar nenhum
+tipo de cobranca, tambem iremos utilizar o recursos de seguranca para liberar acesso
+para criar o que for preciso, utilizando o IAM e funcoes.
+
+Verificando a infraestrutura:
+
+basicamente nesse cenario, esta sendo demonstrado como esta a infra no ambiente de cloud
+onde ja foi provisionado os recursos e estao a espera do uso, durante as proximas aulas
+
+E com essa demonstracao, podemos identificar o tipo de instancia que estava provisionada
+para a nossa aplicacao, que no caso era uma t2.micro e  com a seguranca mais fragil com
+liberacao de entrada para qualquer porta a partir do protocolo tcp,para o nosso banco 
+de dados estava sendo utilizado a t3.micro dentro de uma vpc diferente da padrao da
+regiao.
+
+Nessa aula, você aprendeu como:
+
+Como planejar o que deve ser feito, montando um plano de ação antes de começar a mexer 
+na infraestrutura.
+
+Verificar a infraestrutura da aplicação de produção, podendo assim reconstruí-la em 
+outra região.
