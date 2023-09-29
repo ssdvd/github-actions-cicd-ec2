@@ -50,3 +50,49 @@ toda as outras configuracoes que na foram citadas, e porque mantivemos as opcoes
 que ja vem ao clicarmos em criar. Detalher em ao selecionar a vpc, a mesma tem que estar
 utilizando a que utilizamos ao criar a instancia no ec2. 
 
+Grupos de seguranca:
+
+e para configurar o grupo de seguranca que sera associado a instancia, iremos ter as
+seguintes regras:
+
+em regras de entrada:
+1. todo trafego e de qualquer porta, desde que essa requisicao venha do nosso sg default 
+2. aceita requisicao ssh, porta 22 vindo de qualquer lugar da internet, para acesso
+com par de chave
+3. aceita requisicao na porta 8000, que sera a da nossa aplicacao
+
+regra de saida:
+
+1. todo o trafego e qualquer porta e origem.
+
+obs: nesse cenario, tudo bem utilizar dessa forma, mas em um cenario de uma empresa
+ter regra somente se for estritamente necessario.
+
+e agora no grupo de seguranca do banco:
+
+regras de entrada: 
+
+1. todo o trafego e qualquer porta dentro do proprio grupo de seg
+2. aceita somente trafego na porta 5432, que e a do postgres e somente vindo do grupo 
+de seguranca vindo da instancia ec2 do app.
+
+regra de saida:
+
+1. todo o trafego e qualquer porta e origem.
+
+obs: nesse cenario, tudo bem utilizar dessa forma, mas em um cenario de uma empresa
+ter regra somente se for estritamente necessario.
+
+Nessa aula, você aprendeu como:
+Criar uma máquina virtual na AWS, utilizando o console para nos ajudar durante a 
+criação, e selecionar o tipo de máquina e o seu sistema operacional.
+
+Criar um par de chaves que fornece um acesso seguro à máquina virtual, impedindo 
+que pessoas não autorizadas acessem a máquina.
+
+Criar um banco de dados postgreSQL, que vai armazenar todas as informações geradas 
+pela aplicação e por seus usuários.
+
+Alterar as regras de acesso através do grupo de segurança, e assim permitir uma 
+conexão segura entre a máquina virtual e o banco de dados, e entre a máquina virtual 
+e a internet.
