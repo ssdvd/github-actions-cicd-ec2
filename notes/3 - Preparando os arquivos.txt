@@ -1,2 +1,58 @@
 Arquivo de CD:
 
+para criarmos nosso arquivo de cd, antes devemos adiconar um novo job ao arquivo go.yml,
+assim como fizemos para adicionar a rotina de docker, iremos usar para o ec2 tambem
+e com o seguinte bloco de cod:
+
+  deploy_ec2:
+    needs: build
+    uses: ./.github/workflows/ec2.yml
+    secrets: inherit
+
+aqui estamos nomeado o job para deploy_ec2, dizendo que so pode ser executado depois
+do job build, e que usara o arquivo ec2.yml e que necessitara das secrets, para realizar
+as autenticacoes de maneira segura.
+
+feito isso podemos criar nosso arquivo de nome ec2.yml e adiocinar o seguinte trecho
+de doc:
+
+name: Entrega continua
+
+on:
+  workflow_call:
+
+
+jobs:
+
+indicando que o nome dessa rotina sera Entrega continua, e especificando que essa rotina
+so sera iniciada se for chamada por outra, por isso o on: workflow_call, e em jobs
+sera onde iremos comecar a jogar nossa apliacacao para o ec2.
+
+Aplicacao:
+
+como ja tinha compilado nossa aplicacao dentro do nosso curso anterior, onde esse job
+foi feito no arquivo go e docker, pela opcao de build, upload de artefatos e download
+iremos reutilizar isso, denrto do nosso arquivo ec2.yml, mas somente utilizando o 
+download artifact para baixar o app compilado e pronto para usso, com o seguinte
+trecho de cod:
+
+    ec2:
+        runs-on: ubuntu-latest
+        steps:        
+        - name: Download a Build Artifact
+          uses: actions/download-artifact@v2.1.1
+          with:
+            name: app_go
+            
+        - uses: actions/checkout@v3
+
+esse job, nomeado de ec2, sera rodado em um ambiente ubuntu da ultima versao, e os
+passos que serao realizar sao, o uso e download do build artifact, que e o caso de 
+fazer o download do artifact, e em actions/checkout@v3, indica que iremos utilizar
+o conteudo estatico do nosso repo.
+
+nota, tomar cuidado na ordem que em que chamamos o job - uses: actions/checkout@v3,
+pois quando estamos utilizando o download do artefato, o mesmo ira substituir algumas
+infomacoes estaticas assim que o job for executado, entao por isso chamado o - uses: actions/checkout@v3
+logo apos o download do artifact, para nao sobrepor nossas informacoes estaticas do repo.
+
