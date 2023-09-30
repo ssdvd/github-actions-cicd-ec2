@@ -56,3 +56,56 @@ pois quando estamos utilizando o download do artefato, o mesmo ira substituir al
 infomacoes estaticas assim que o job for executado, entao por isso chamado o - uses: actions/checkout@v3
 logo apos o download do artifact, para nao sobrepor nossas informacoes estaticas do repo.
 
+Enviando arquivos:
+
+Para enviarmos nossos arquivmos para a nossa instancia, iremos incluir um acesso ssh
+dentro da nossa rotina, para que assim possamos enviar os arquivos necessarios para a
+instancias, com o seguinte bloco de codigo:
+
+        - name: Deploy to Staging server
+          uses: easingthemes/ssh-deploy@main
+          with:
+            SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+            REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+            REMOTE_USER: ${{ secrets.REMOTE_USER }}
+            TARGET: /home/${{ secrets.REMOTE_USER }}
+            EXCLUDE: "postgres-data"
+
+Este job com o nome de deploy to staging server, esta utilizando um repositorio de rotina
+do marketplace, onde e usado para realizar o acesso de instancias via ssh, tornando assim
+a nossa vida mais facil para fazer o acesso e em sequencia o envio dos arquivos necessarios
+em SSH_PRIVATE_KEY, iremos passar como variavel do repositorio, utilizando como secrets
+assim como o REMOTE_HOST e REMOTE_USER, e tambem o TARGET. na opcao de exclude, estamos
+excluindo o diretorio "postgres-data"
+
+Segredos da VM:
+
+Basicamente sem segredo kkkk, iremos criar nossos secrets conforme ja definimos os nomes
+anteriormente, no caso:
+
+
+SSH_PRIVATE_KEY = vai conter a criptografia da nossa chave
+REMOTE_HOST = ip da nossa instancia do app
+REMOTE_USER = usuario do sistema operacional
+
+Lembrar de recriar as secrets do arquivo docker.yml
+
+USER_DOCKERHUB = usuario do dockerhub 
+PW_DOCKERHUB = senha do usuario 
+
+com todos esses secrets criados, ja estamos pronto para realizar o envio dos arquivos 
+para a instancia do app.
+
+Nessa aula, você aprendeu:
+
+Que a ordem de execução é importante em rotinas de CI/CD, já que mesmo rotinas que 
+não aparentam podem trazer problemas caso sejam executadas fora de ordem, como é o 
+caso do actions/checkout@v2, que apagava todo o conteúdo das pastas quando era 
+executado.
+
+Como colocar os arquivos necessários para uma aplicação em uma máquina virtual, 
+utilizando uma rotina pronta no marketplace do Github, e mantendo toda a segurança 
+de fazer isso manualmente.
+
+A definir quais arquivos não deveriam ser enviados e assim economizar banda com a 
+remoção de arquivos como o banco de dados de teste.

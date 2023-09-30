@@ -15,3 +15,12 @@ jobs:
             name: app_go
             
         - uses: actions/checkout@v3
+
+        - name: Deploy to Staging server
+          uses: easingthemes/ssh-deploy@main
+          with:
+            SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+            REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+            REMOTE_USER: ${{ secrets.REMOTE_USER }}
+            TARGET: /home/${{ secrets.REMOTE_USER }}
+            EXCLUDE: "postgres-data"
