@@ -1,0 +1,43 @@
+Sobre SSH:
+
+para executarmos os comandos necessarios para que o nosso ambiente funcione de maneira
+correta, iremos ter que utilizar um repo do marketplace para realizar a conexao 
+e com isso executar o nosso script de preparacao de ambiente. Com o seguinte bloco de
+cod:
+
+        - name: executing remote ssh commands using password
+          uses: appleboy/ssh-action@v1.0.0
+          with:
+            host: ${{ secrets.REMOTE_HOST }}
+            username: ${{ secrets.REMOTE_USER }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            port: 22
+            script: whoami
+
+aqui nesse job, estamos nomeado com base no que ele ira fazer, que e utilizar os comandos
+usando uma conexao ssh, em uses estamos dizendo que iremos trabalhar com um repo do
+marketplace, e nas chaves estamos dando como valor, em host estamos dizendo em que instancia
+iremos conectar ou seja o ip da nossa instancia, em username estamos dizendo o usuario da
+instancia, em key estamos passando o conteudo do nosso par de chave gerado anteriormente
+enquanto criavamos a instancia, na porta estamos referenciando a 22 que e a padrao para
+acesso ssh, em script sera onde iremos informar o arquivo ou comando que iremos executar.
+
+Script SSH:
+
+e para inserirmos o script nesse bloco de cod:
+
+script: |
+              export HOST=
+              export USER=
+              export PASSWORD=
+              export BDNAME=
+              export PORT=
+
+ao colocar o pipe apos os dois pontos da chave script, podemos inserir quantas linhas
+de comandos quisermos e quanto for necessario para o preparo do ambiente. E para
+criarmos as nossas variaveis de ambiente podemos utilizar o comando export e em 
+seguida definimos um nome para essa variavel, como foi visto no bloco, feito isso
+apos o sinal de igual, podemos dar o valor para essa variavel, e como estamos utilizando
+o secrets do github, iremos criar um novo secrets para cada variavel e atribuir o valor,
+feito isso iremos adicionar os secrets nos valores das variaveis, tornando assim o nosso
+codigo mais seguro e confiavel.
