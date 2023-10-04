@@ -24,3 +24,20 @@ jobs:
             REMOTE_USER: ${{ secrets.REMOTE_USER }}
             TARGET: /home/${{ secrets.REMOTE_USER }}
             EXCLUDE: "postgres-data"
+
+        - name: executing remote ssh commands using password
+          uses: appleboy/ssh-action@v1.0.0
+          with:
+            host: ${{ secrets.REMOTE_HOST }}
+            username: ${{ secrets.REMOTE_USER }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            port: 22
+            script: |
+              export HOST= ${{ secrets.DBHOST }}
+              export USER= ${{ secrets.DBUSER }}
+              export PASSWORD= ${{ secrets.DBPASSWORD }}
+              export BDNAME= ${{ secrets.DBNAME }}
+              export DBPORT= ${{ secrets.DBPORT }}
+              export PORT= 8000
+              chmod +x main
+              nohup ./main &

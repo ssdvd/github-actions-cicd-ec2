@@ -1,0 +1,16 @@
+Iniciando a aplicação:
+
+e para iniciamos o nosso app, devemos adiconar os seguintes comandos dentro do
+arquivo ec2.yml
+
+              chmod +x main
+              nohup ./main &
+
+o chmod esta dando as permissoes necessarias para o arquivo main que no caso e a de 
+permissao de execucao, e o nohup esta ira continuar a executar o comando mesmo se 
+o terminal for encerrado, em segundo plano.
+
+e com somente isso, a nosso app ainda nao estara disponivel, devido a um problema de
+redirecionamento por conta do gihtub actions em seguida iremos ver como podemos 
+resolver essa questao.
+

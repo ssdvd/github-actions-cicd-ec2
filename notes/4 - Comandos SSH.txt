@@ -41,3 +41,55 @@ apos o sinal de igual, podemos dar o valor para essa variavel, e como estamos ut
 o secrets do github, iremos criar um novo secrets para cada variavel e atribuir o valor,
 feito isso iremos adicionar os secrets nos valores das variaveis, tornando assim o nosso
 codigo mais seguro e confiavel.
+
+Variaveis e go:
+
+iremos adicionar no secrets o valor das nossas variaveis de ambiente do banco do app
+em go, e para isso podemos inserir o seguinte:
+
+            script: |
+              export HOST= ${{ secrets.DBHOST }}
+              export USER= ${{ secrets.DBUSER }}
+              export PASSWORD= ${{ secrets.DBPASSWORD }}
+              export BDNAME= ${{ secrets.DBNAME }}
+              export PORT= ${{ secrets.PORT }}
+
+aqui definimos os nomes das nossas secrets e alem disso cadastramos os valores das 
+secrets em nosso repo do app, tornando o uso bem mais simples.
+
+Aplicacao e porta:
+
+devido uma funcao do go, ele detecta se houver uma variavel com o nome de PORT, o 
+mesmo assume que sera a porta usada para o app, entao devemos mudar para o padrao
+em que haviamos comecado, no caso:
+
+              export PORT= ${{ secrets.DBPORT }}
+              export PORT= 8000
+
+Nao esquecer tambem de mudar diretamente no secrets dentro do repositorio. como nao 
+e permitido alterar somente o nome do secrets, temos que excluir e criar uma nova 
+com o nome e valor correto. e aproveitamos para fixar o valor da porta na variavel
+PORT do qual o GO ira se aproveitar. E como essa porta nao e um tipo de informacao
+confidencial, ela pode se exposta dentro do codigo sem nenhum problema.
+
+e alteramos a variaveis de ambiente que sao pegas, dentro do arquivo db.go alterando
+de " port=" + os.Getenv("PORT") para " port=" + os.Getenv("DBPORT").
+
+tambem no Dockerfile, alteramos de ENV HOST=localhost PORT=5432 para
+ENV HOST=localhost DBPORT=5432.
+
+em go.yml alteramos tambem a variavel de ambiente que passamos no job test de
+PORT: 5432 para DBPORT: 5432.
+
+feito, nao sera retornado nenhum erro por conta dessa alteracao de porta.
+
+Nessa aula, você aprendeu como:
+
+Conectar via SSH no servidor para executar os comandos que precisamos para preparar 
+o nosso ambiente e também para executar a aplicação.
+
+Criar as variáveis de ambiente necessárias para a execução da nossa aplicação, 
+mantendo seus valores em segredo e protegendo a aplicação e o banco de dados.
+
+Alterar a aplicação para trocar o nome das variáveis de ambiente, já que a porta da 
+aplicação estava conflitando com a porta do banco de dados.
