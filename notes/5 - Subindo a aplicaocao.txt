@@ -7,10 +7,35 @@ arquivo ec2.yml
               nohup ./main &
 
 o chmod esta dando as permissoes necessarias para o arquivo main que no caso e a de 
-permissao de execucao, e o nohup esta ira continuar a executar o comando mesmo se 
+permissao de execucao, e o nohup ./ & esta ira continuar a executar o comando mesmo se 
 o terminal for encerrado, em segundo plano.
 
 e com somente isso, a nosso app ainda nao estara disponivel, devido a um problema de
 redirecionamento por conta do gihtub actions em seguida iremos ver como podemos 
 resolver essa questao.
 
+Redirecionamento:
+
+por conta do comando nohup, o github actions fica esperando uma saida, para poder 
+registrar no log durante a rotina, e como o github actions espera essa saida, o
+job fica rodando infinitamente, ate o mesmo encerrar o job por seguranca o que pode
+levar 5 a 6hrs. e para resolver isso, podemos inserir o seguinte comando:
+
+nohup ./main > nohup.out 2> nohup.err < /dev/null &
+
+aqui ainda estamos executando nosso app, porem estamos redirecionando as saidas para
+o arquivo nohup.out e os erros para nohup.err, lembrando que as saidas de erro sao
+conhecido como o numero 2, e sempre que precisarmos de uma entrar, recebera o null
+conforme < dev/null. Com isso a aplicacao funcionara corretamente.
+
+Nessa aula, você aprendeu como:
+
+Iniciar a aplicação utilizando o nohup para a nossa aplicação não depender do 
+terminal e o & para que ela possa ser executada em segundo plano.
+
+Redirecionar saídas dos nossos comandos para um arquivo, permitindo executar o 
+comando da nossa API sem apresentar o erro no Github Actions que impedia a execução 
+da aplicação.
+
+Redirecionar as entradas para a aplicação não travar se for necessário alguma entrada 
+pelo console, mantendo ela em execução o tempo todo.
